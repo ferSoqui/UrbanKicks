@@ -1,6 +1,6 @@
 package com.example.urbankicks.vistas
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,12 +24,16 @@ import com.example.urbankicks.modelo.obtenerZapatillas
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import androidx.compose.foundation.Image
 
 @Composable
 fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableList<Int>) {
 
     val zapatilla = obtenerZapatillas().find { it.id == id }
     var mensaje by remember { mutableStateOf("") }
+
+    // Forzamos a Compose a observar el tamaño del carrito
+    var carritoSize by remember { mutableStateOf(carritoIds.size) }
 
     val tallas = listOf("6 MX", "7 MX", "8 MX", "9 MX", "10 MX")
     var tallaSeleccionada by remember { mutableStateOf("7 MX") }
@@ -42,6 +46,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
             Column(modifier = Modifier.fillMaxSize()) {
 
+                // Encabezado
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -72,6 +77,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                     }
                 }
 
+                // Imagen del producto
                 Image(
                     painter = painterResource(id = when(zapatilla.id) {
                         1 -> R.drawable.zapato01
@@ -91,6 +97,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         .height(250.dp)
                         .padding(horizontal = 16.dp)
                         .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -101,6 +108,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         .padding(horizontal = 16.dp)
                 ) {
 
+                    // Selector de tallas
                     Text(
                         text = "Talla: $tallaSeleccionada",
                         fontWeight = FontWeight.Bold,
@@ -135,6 +143,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(12.dp))
 
+                    // Nombre y marca
                     Text(
                         text = "${zapatilla.marca} - ${zapatilla.nombre}",
                         fontWeight = FontWeight.Bold,
@@ -143,6 +152,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(4.dp))
 
+                    // Precio y color
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -178,6 +188,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Mensaje si fue agregado
                     if (mensaje.isNotEmpty()) {
                         Text(
                             text = mensaje,
@@ -187,12 +198,14 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         Spacer(modifier = Modifier.height(8.dp))
                     }
 
+                    // Botón agregar al carrito
                     Button(
                         onClick = {
                             if (carritoIds.contains(zapatilla.id)) {
                                 mensaje = "Ya está en el carrito"
                             } else {
                                 carritoIds.add(zapatilla.id)
+                                carritoSize = carritoIds.size
                                 mensaje = "Agregado al carrito"
                             }
                         },

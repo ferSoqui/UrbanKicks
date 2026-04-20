@@ -6,11 +6,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.urbankicks.R
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
@@ -36,18 +39,21 @@ fun RegistroView(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Título principal
-            Text(
-                text = "Crea una",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "cuenta",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
-            )
+            // Título alineado a la izquierda
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Column {
+                    Text(
+                        text = "Crea una",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "cuenta",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -111,7 +117,7 @@ fun RegistroView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            // Botón principal con color café
+            // Botón registrarse
             Button(
                 onClick = {
                     if (nombre.trim().isEmpty()) {
@@ -158,27 +164,55 @@ fun RegistroView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botones sociales
+            // Botones sociales con SVG
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
+
+                // Google
                 OutlinedButton(
                     onClick = { },
-                    shape = RoundedCornerShape(50.dp)
+                    shape = RoundedCornerShape(50.dp),
+                    modifier = Modifier.size(60.dp),
+                    contentPadding = PaddingValues(0.dp)
                 ) {
-                    Text("G")
+                    Icon(
+                        painter = painterResource(id = R.drawable.google_icon_logo_svgrepo_com),
+                        contentDescription = "Google",
+                        modifier = Modifier.size(28.dp),
+                        tint = Color.Unspecified
+                    )
                 }
+
+                // Apple
                 OutlinedButton(
                     onClick = { },
-                    shape = RoundedCornerShape(50.dp)
+                    shape = RoundedCornerShape(50.dp),
+                    modifier = Modifier.size(60.dp),
+                    contentPadding = PaddingValues(0.dp)
                 ) {
-                    Text("")
+                    Icon(
+                        painter = painterResource(id = R.drawable.apple_black_logo_svgrepo_com),
+                        contentDescription = "Apple",
+                        modifier = Modifier.size(28.dp),
+                        tint = Color.Unspecified
+                    )
                 }
+
+                // Facebook
                 OutlinedButton(
                     onClick = { },
-                    shape = RoundedCornerShape(50.dp)
+                    shape = RoundedCornerShape(50.dp),
+                    modifier = Modifier.size(60.dp),
+                    contentPadding = PaddingValues(0.dp)
                 ) {
-                    Text("f")
+                    Icon(
+                        painter = painterResource(id = R.drawable.facebook_3_logo_svgrepo_com),
+                        contentDescription = "Facebook",
+                        modifier = Modifier.size(28.dp),
+                        tint = Color.Unspecified
+                    )
                 }
             }
 

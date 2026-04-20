@@ -44,10 +44,10 @@ fun HomeView(navController: NavHostController) {
 
     val zapatillasFiltradas = zapatillas.filter { zapatilla ->
         val coincideBusqueda = busqueda.isEmpty() ||
-                zapatilla.nombre.contains(busqueda, ignoreCase = true)
-        zapatilla.marca.contains(busqueda, ignoreCase = true)
-        zapatilla.color.contains(busqueda, ignoreCase = true)
-        zapatilla.categoria.contains(busqueda, ignoreCase = true)
+                zapatilla.nombre.contains(busqueda, ignoreCase = true) ||
+                zapatilla.marca.contains(busqueda, ignoreCase = true) ||
+                zapatilla.color.contains(busqueda, ignoreCase = true) ||
+                zapatilla.categoria.contains(busqueda, ignoreCase = true)
 
         val coincideMarca = marcaSeleccionada == "Todas" ||
                 zapatilla.marca == marcaSeleccionada
@@ -61,6 +61,7 @@ fun HomeView(navController: NavHostController) {
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
 
+            // Encabezado
             item {
                 Row(
                     modifier = Modifier
@@ -122,6 +123,7 @@ fun HomeView(navController: NavHostController) {
                 }
             }
 
+            // Barra de búsqueda
             item {
                 OutlinedTextField(
                     value = busqueda,
@@ -135,6 +137,7 @@ fun HomeView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
+            // Filtro de marcas
             item {
                 Text(
                     text = "Elegir marca",
@@ -172,6 +175,7 @@ fun HomeView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
+            // Grid de productos en 2 columnas
             items(zapatillasFiltradas.chunked(2)) { par ->
                 Row(
                     modifier = Modifier
@@ -193,6 +197,7 @@ fun HomeView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
+            // Mensaje si no hay resultados
             if (zapatillasFiltradas.isEmpty()) {
                 item {
                     Box(
@@ -264,7 +269,7 @@ fun ZapatillaCard(
             Text(
                 text = "$${zapatilla.precio}",
                 fontWeight = FontWeight.Bold,
-                color =  TextoOscuro,
+                color = TextoOscuro,
                 fontSize = 14.sp
             )
         }

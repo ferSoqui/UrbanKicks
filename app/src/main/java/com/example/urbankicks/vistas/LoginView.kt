@@ -136,7 +136,7 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔥 BOTONES CON TUS SVG
+            //BOTONES CON  SVG
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
