@@ -1,6 +1,6 @@
 package com.example.urbankicks.vistas
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,21 +14,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.urbankicks.R
+import com.example.urbankicks.modelo.ItemCarrito
 import com.example.urbankicks.modelo.obtenerZapatillas
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
-fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) {
+fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarrito>) {
 
     val todasLasZapatillas = obtenerZapatillas()
-    val zapatillasEnCarrito = todasLasZapatillas.filter { carritoIds.contains(it.id) }
-    val total = zapatillasEnCarrito.sumOf { it.precio }
+    val total = carrito.sumOf { item ->
+        val zapatilla = todasLasZapatillas.find { it.id == item.zapatillaId }
+        (zapatilla?.precio ?: 0.0) * item.cantidad
+    }
+
+    val fechaEntrega = LocalDate.now().plusDays(7).format(
+        DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("es", "MX"))
+    )
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -36,7 +49,6 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
 
-            // Encabezado
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -44,7 +56,6 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Botón regresar
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
@@ -62,9 +73,8 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
                 Spacer(modifier = Modifier.width(48.dp))
             }
 
-            if (zapatillasEnCarrito.isEmpty()) {
+            if (carrito.isEmpty()) {
 
-                // Carrito vacío
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
@@ -100,86 +110,106 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = ""
-                        )
-                        Text(
-                            text = "   Ver productos",
-                            color = Color.White
-                        )
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+                        Text(text = "   Ver productos", color = Color.White)
                     }
                 }
 
             } else {
 
-                // Lista de productos en el carrito
                 LazyColumn(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(zapatillasEnCarrito) { zapatilla ->
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White)
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                    items(carrito) { item ->
+                        val zapatilla = todasLasZapatillas.find { it.id == item.zapatillaId }
+
+                        if (zapatilla != null) {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(12.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color.White)
                             ) {
-                                // Placeholder imagen
-                                Box(
+                                Row(
                                     modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(FondoClaro),
-                                    contentAlignment = Alignment.Center
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.ShoppingCart,
-                                        contentDescription = "",
-                                        tint = CafePrincipal,
-                                        modifier = Modifier.size(36.dp)
+                                    Image(
+                                        painter = painterResource(id = when(zapatilla.id) {
+                                            1 -> R.drawable.zapato01
+                                            2 -> R.drawable.zapato02
+                                            3 -> R.drawable.zapato03
+                                            4 -> R.drawable.zapato04
+                                            5 -> R.drawable.zapato05
+                                            6 -> R.drawable.zapato06
+                                            7 -> R.drawable.zapato07
+                                            8 -> R.drawable.zapato08
+                                            else -> R.drawable.zapato01
+                                        }),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .size(90.dp)
+                                            .clip(RoundedCornerShape(8.dp))
                                     )
-                                }
 
-                                Spacer(modifier = Modifier.width(12.dp))
+                                    Spacer(modifier = Modifier.width(12.dp))
 
-                                // Info del producto
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = zapatilla.nombre,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 15.sp
-                                    )
-                                    Text(
-                                        text = zapatilla.marca,
-                                        color = TextoGris,
-                                        fontSize = 13.sp
-                                    )
-                                    Text(
-                                        text = "Color: ${zapatilla.color}",
-                                        color = TextoGris,
-                                        fontSize = 12.sp
-                                    )
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        text = "$${zapatilla.precio}",
-                                        fontWeight = FontWeight.Bold,
-                                        color = CafePrincipal,
-                                        fontSize = 15.sp
-                                    )
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = zapatilla.nombre,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 15.sp
+                                        )
+
+                                        Text(
+                                            text = zapatilla.marca,
+                                            color = TextoGris,
+                                            fontSize = 13.sp
+                                        )
+
+                                        Spacer(modifier = Modifier.height(4.dp))
+
+                                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                            Text(
+                                                text = "Talla: ${item.talla}",
+                                                color = TextoGris,
+                                                fontSize = 12.sp
+                                            )
+                                            Text(
+                                                text = "Cant: ${item.cantidad}",
+                                                color = TextoGris,
+                                                fontSize = 12.sp
+                                            )
+                                        }
+
+                                        Spacer(modifier = Modifier.height(4.dp))
+
+                                        Text(
+                                            text = "Entrega: $fechaEntrega",
+                                            color = CafePrincipal,
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+
+                                        Spacer(modifier = Modifier.height(4.dp))
+
+                                        Text(
+                                            text = "$${String.format("%.2f", zapatilla.precio * item.cantidad)}",
+                                            fontWeight = FontWeight.Bold,
+                                            color = CafePrincipal,
+                                            fontSize = 15.sp
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
 
-                // Resumen de pago
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -246,9 +276,8 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
                     }
                 }
 
-                // Botón proceder al pago
                 Button(
-                    onClick = { },
+                    onClick = { navController.navigate("pago") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
@@ -257,10 +286,7 @@ fun CarritoView(navController: NavHostController, carritoIds: MutableList<Int>) 
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = ""
-                    )
+                    Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "")
                     Text(
                         text = "   Proceder al pago",
                         color = Color.White,

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.urbankicks.modelo.ItemCarrito
 import com.example.urbankicks.vistas.LoginView
 import com.example.urbankicks.vistas.RegistroView
 import com.example.urbankicks.vistas.HomeView
@@ -14,15 +15,14 @@ import com.example.urbankicks.vistas.DetalleView
 import com.example.urbankicks.vistas.CarritoView
 import com.example.urbankicks.vistas.PerfilView
 import com.example.urbankicks.vistas.AjustesView
+import com.example.urbankicks.vistas.PagoView
+import com.example.urbankicks.vistas.ConfirmacionView
 
 @Composable
 fun NavManager(modifier: Modifier = Modifier) {
 
     val navController = rememberNavController()
-
-    // Lista observable que guarda los ids de zapatillas en el carrito
-    // Se comparte entre HomeView, DetalleView y CarritoView
-    val carritoIds = remember { mutableStateListOf<Int>() }
+    val carrito = remember { mutableStateListOf<ItemCarrito>() }
 
     NavHost(
         navController = navController,
@@ -30,40 +30,39 @@ fun NavManager(modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
 
-        // Pantalla 1: Login — pantalla inicial de la app
         composable("login") {
             LoginView(navController)
         }
 
-        // Pantalla 2: Registro — crear cuenta nueva
         composable("registro") {
             RegistroView(navController)
         }
 
-        // Pantalla 3: Home — lista de productos y búsqueda
         composable("home") {
             HomeView(navController)
         }
 
-        // Pantalla 4: Detalle — recibe el id del producto como parámetro
         composable("detalle/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments
-                ?.getString("id")
-                ?.toIntOrNull() ?: 0
-            DetalleView(navController, id, carritoIds)
+            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
+            DetalleView(navController, id, carrito)
         }
 
-        // Pantalla 5: Carrito — recibe la lista compartida de ids
         composable("carrito") {
-            CarritoView(navController, carritoIds)
+            CarritoView(navController, carrito)
         }
 
-        // Pantalla 6: Perfil
+        composable("pago") {
+            PagoView(navController, carrito)
+        }
+
+        composable("confirmacion") {
+            ConfirmacionView(navController, carrito)
+        }
+
         composable("perfil") {
             PerfilView(navController)
         }
 
-        // Pantalla 7: Ajustes
         composable("ajustes") {
             AjustesView(navController)
         }

@@ -1,8 +1,10 @@
 package com.example.urbankicks.vistas
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddShoppingCart
 import androidx.compose.material.icons.filled.ArrowBack
@@ -20,23 +22,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.urbankicks.R
+import com.example.urbankicks.modelo.ItemCarrito
 import com.example.urbankicks.modelo.obtenerZapatillas
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
-import androidx.compose.foundation.Image
 
 @Composable
-fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableList<Int>) {
+fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<ItemCarrito>) {
 
     val zapatilla = obtenerZapatillas().find { it.id == id }
     var mensaje by remember { mutableStateOf("") }
-
-    // Forzamos a Compose a observar el tamaño del carrito
-    var carritoSize by remember { mutableStateOf(carritoIds.size) }
-
     val tallas = listOf("6 MX", "7 MX", "8 MX", "9 MX", "10 MX")
     var tallaSeleccionada by remember { mutableStateOf("7 MX") }
+    var cantidad by remember { mutableStateOf(1) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -44,9 +43,12 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
     ) {
         if (zapatilla != null) {
 
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
 
-                // Encabezado
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -77,7 +79,6 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                     }
                 }
 
-                // Imagen del producto
                 Image(
                     painter = painterResource(id = when(zapatilla.id) {
                         1 -> R.drawable.zapato01
@@ -97,7 +98,6 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         .height(250.dp)
                         .padding(horizontal = 16.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -108,7 +108,6 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         .padding(horizontal = 16.dp)
                 ) {
 
-                    // Selector de tallas
                     Text(
                         text = "Talla: $tallaSeleccionada",
                         fontWeight = FontWeight.Bold,
@@ -122,10 +121,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                             Button(
                                 onClick = { tallaSeleccionada = talla },
                                 shape = RoundedCornerShape(8.dp),
-                                contentPadding = PaddingValues(
-                                    horizontal = 12.dp,
-                                    vertical = 6.dp
-                                ),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
                                 colors = if (tallaSeleccionada == talla)
                                     ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                                 else
@@ -134,8 +130,7 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                                 Text(
                                     text = talla,
                                     fontSize = 11.sp,
-                                    color = if (tallaSeleccionada == talla)
-                                        Color.White else CafePrincipal
+                                    color = if (tallaSeleccionada == talla) Color.White else CafePrincipal
                                 )
                             }
                         }
@@ -143,7 +138,6 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Nombre y marca
                     Text(
                         text = "${zapatilla.marca} - ${zapatilla.nombre}",
                         fontWeight = FontWeight.Bold,
@@ -152,7 +146,6 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(4.dp))
 
-                    // Precio y color
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -188,7 +181,45 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Mensaje si fue agregado
+                    Text(
+                        text = "Cantidad:",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Button(
+                            onClick = { if (cantidad > 1) cantidad-- },
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
+                        ) {
+                            Text("-", fontSize = 18.sp, color = Color.White)
+                        }
+
+                        Text(
+                            text = "$cantidad",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+
+                        Button(
+                            onClick = { cantidad++ },
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
+                        ) {
+                            Text("+", fontSize = 18.sp, color = Color.White)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     if (mensaje.isNotEmpty()) {
                         Text(
                             text = mensaje,
@@ -198,14 +229,22 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                         Spacer(modifier = Modifier.height(8.dp))
                     }
 
-                    // Botón agregar al carrito
                     Button(
                         onClick = {
-                            if (carritoIds.contains(zapatilla.id)) {
-                                mensaje = "Ya está en el carrito"
+                            val itemExistente = carrito.find {
+                                it.zapatillaId == zapatilla.id && it.talla == tallaSeleccionada
+                            }
+                            if (itemExistente != null) {
+                                itemExistente.cantidad += cantidad
+                                mensaje = "Cantidad actualizada en el carrito"
                             } else {
-                                carritoIds.add(zapatilla.id)
-                                carritoSize = carritoIds.size
+                                carrito.add(
+                                    ItemCarrito(
+                                        zapatillaId = zapatilla.id,
+                                        talla = tallaSeleccionada,
+                                        cantidad = cantidad
+                                    )
+                                )
                                 mensaje = "Agregado al carrito"
                             }
                         },
@@ -226,6 +265,8 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                             fontWeight = FontWeight.Bold
                         )
                     }
+
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
 
@@ -242,14 +283,8 @@ fun DetalleView(navController: NavHostController, id: Int, carritoIds: MutableLi
                     onClick = { navController.popBackStack() },
                     colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = ""
-                    )
-                    Text(
-                        text = "   Regresar",
-                        color = Color.White
-                    )
+                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+                    Text(text = "   Regresar", color = Color.White)
                 }
             }
         }
