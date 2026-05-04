@@ -16,18 +16,32 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.urbankicks.persistencia.Preferencias
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
 
 @Composable
 fun PerfilView(navController: NavHostController) {
 
+    val context = LocalContext.current
+    val preferencias = Preferencias(context)
+    val scope = rememberCoroutineScope()
+
+    val nombreGuardado by preferencias.nombre.collectAsState(initial = "")
+    val correoGuardado by preferencias.correo.collectAsState(initial = "")
+
     var nombre by remember { mutableStateOf("") }
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
-    var idiomaSeleccionado by remember { mutableStateOf("Español (México)") }
     var mensaje by remember { mutableStateOf("") }
+
+    LaunchedEffect(nombreGuardado, correoGuardado) {
+        nombre = nombreGuardado
+        correo = correoGuardado
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -67,7 +81,6 @@ fun PerfilView(navController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // Ícono de perfil
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = "",
@@ -84,109 +97,37 @@ fun PerfilView(navController: NavHostController) {
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
 
-                        // Campo nombre
-                        Text(
-                            text = "Nombre completo",
-                            color = TextoGris,
-                            fontSize = 12.sp
-                        )
+                        // Nombre
+                        Text("Nombre completo", color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = nombre,
                             onValueChange = { nombre = it },
-                            placeholder = { Text("Tu nombre") },
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        // Campo correo
-                        Text(
-                            text = "Email",
-                            color = TextoGris,
-                            fontSize = 12.sp
-                        )
+                        // Correo
+                        Text("Email", color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = correo,
                             onValueChange = { correo = it },
-                            placeholder = { Text("tucorreo@email.com") },
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        // Campo contraseña
-                        Text(
-                            text = "Contraseña",
-                            color = TextoGris,
-                            fontSize = 12.sp
-                        )
+                        // Contraseña
+                        Text("Contraseña", color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = contrasena,
                             onValueChange = { contrasena = it },
-                            placeholder = { Text("••••••••••") },
                             visualTransformation = PasswordVisualTransformation(),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         )
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        TextButton(onClick = { }) {
-                            Text(
-                                text = "Cambiar Contraseña",
-                                color = TextoGris,
-                                fontSize = 12.sp
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        // Selector de idioma
-                        Text(
-                            text = "Idioma:",
-                            color = TextoGris,
-                            fontSize = 12.sp
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Button(
-                                onClick = { idiomaSeleccionado = "Español (México)" },
-                                shape = RoundedCornerShape(8.dp),
-                                colors = if (idiomaSeleccionado == "Español (México)")
-                                    ButtonDefaults.buttonColors(containerColor = CafePrincipal)
-                                else
-                                    ButtonDefaults.buttonColors(containerColor = Color.White)
-                            ) {
-                                Text(
-                                    text = "Español (México)",
-                                    color = if (idiomaSeleccionado == "Español (México)")
-                                        Color.White else CafePrincipal,
-                                    fontSize = 12.sp
-                                )
-                            }
-
-                            Button(
-                                onClick = { idiomaSeleccionado = "English" },
-                                shape = RoundedCornerShape(8.dp),
-                                colors = if (idiomaSeleccionado == "English")
-                                    ButtonDefaults.buttonColors(containerColor = CafePrincipal)
-                                else
-                                    ButtonDefaults.buttonColors(containerColor = Color.White)
-                            ) {
-                                Text(
-                                    text = "English (US)",
-                                    color = if (idiomaSeleccionado == "English")
-                                        Color.White else CafePrincipal,
-                                    fontSize = 12.sp
-                                )
-                            }
-                        }
 
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -199,13 +140,22 @@ fun PerfilView(navController: NavHostController) {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
 
-                        // Botón guardar con ícono
+                        // Botón guardar
                         Button(
                             onClick = {
                                 if (nombre.trim().isEmpty()) {
                                     mensaje = "Ingresa tu nombre"
+                                } else if (correo.trim().isEmpty()) {
+                                    mensaje = "Ingresa tu correo"
                                 } else {
-                                    mensaje = "Perfil guardado"
+                                    scope.launch {
+                                        preferencias.guardarPerfil(
+                                            nombre = nombre,
+                                            correo = correo,
+                                            idioma = "Español (México)"
+                                        )
+                                        mensaje = "Perfil guardado correctamente"
+                                    }
                                 }
                             },
                             modifier = Modifier

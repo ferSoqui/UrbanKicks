@@ -15,9 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.urbankicks.R
+import com.example.urbankicks.persistencia.Preferencias
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginView(navController: NavHostController) {
@@ -25,6 +28,10 @@ fun LoginView(navController: NavHostController) {
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val preferencias = Preferencias(context)
+    val scope = rememberCoroutineScope()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -38,7 +45,6 @@ fun LoginView(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Título alineado a la izquierda
             Text(
                 text = "Bienvenido",
                 fontSize = 32.sp,
@@ -57,7 +63,7 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Campo correo
+            // Correo
             OutlinedTextField(
                 value = correo,
                 onValueChange = { correo = it },
@@ -68,7 +74,7 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Campo contraseña
+            // Contraseña
             OutlinedTextField(
                 value = contrasena,
                 onValueChange = { contrasena = it },
@@ -80,7 +86,6 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Olvidaste contraseña
             Box(modifier = Modifier.fillMaxWidth()) {
                 TextButton(
                     onClick = { },
@@ -101,12 +106,17 @@ fun LoginView(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            // Botón login
             Button(
                 onClick = {
                     if (correo.trim().isEmpty() || contrasena.trim().isEmpty()) {
                         error = "Ingresa tu correo y contraseña"
                     } else {
+                        error = ""
+
+                        scope.launch {
+                            preferencias.guardarSesion(true)
+                        }
+
                         navController.navigate("home") {
                             popUpTo("login") { inclusive = true }
                         }
@@ -127,7 +137,6 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Separador
             Text(
                 text = "- O continúa con -",
                 color = TextoGris,
@@ -136,13 +145,11 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            //BOTONES CON  SVG
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
 
-                // Google
                 OutlinedButton(
                     onClick = { },
                     shape = RoundedCornerShape(50.dp),
@@ -153,11 +160,10 @@ fun LoginView(navController: NavHostController) {
                         painter = painterResource(id = R.drawable.google_icon_logo_svgrepo_com),
                         contentDescription = "Google",
                         modifier = Modifier.size(28.dp),
-                        tint = Color.Unspecified // 👈 mantiene colores reales
+                        tint = Color.Unspecified
                     )
                 }
 
-                // Apple
                 OutlinedButton(
                     onClick = { },
                     shape = RoundedCornerShape(50.dp),
@@ -172,7 +178,6 @@ fun LoginView(navController: NavHostController) {
                     )
                 }
 
-                // Facebook
                 OutlinedButton(
                     onClick = { },
                     shape = RoundedCornerShape(50.dp),
@@ -190,7 +195,6 @@ fun LoginView(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Registro
             TextButton(onClick = { navController.navigate("registro") }) {
                 Text(
                     text = "Crear una cuenta  ",

@@ -11,21 +11,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.urbankicks.R
+import com.example.urbankicks.persistencia.Preferencias
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import kotlinx.coroutines.launch
 
 @Composable
 fun AjustesView(navController: NavHostController) {
 
-    var nuevasOfertas by remember { mutableStateOf(true) }
-    var recordatoriosPedidos by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val preferencias = Preferencias(context)
+    val scope = rememberCoroutineScope()
+
+    val nuevasOfertas by preferencias.ofertas.collectAsState(initial = true)
+    val recordatoriosPedidos by preferencias.recordatorios.collectAsState(initial = true)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -117,11 +124,11 @@ fun AjustesView(navController: NavHostController) {
                             )
                             Switch(
                                 checked = nuevasOfertas,
-                                onCheckedChange = { nuevasOfertas = it },
-                                colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
-                                    checkedTrackColor = CafePrincipal
-                                )
+                                onCheckedChange = {
+                                    scope.launch {
+                                        preferencias.guardarAjustes(it, recordatoriosPedidos)
+                                    }
+                                }
                             )
                         }
 
@@ -139,11 +146,11 @@ fun AjustesView(navController: NavHostController) {
                             )
                             Switch(
                                 checked = recordatoriosPedidos,
-                                onCheckedChange = { recordatoriosPedidos = it },
-                                colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
-                                    checkedTrackColor = CafePrincipal
-                                )
+                                onCheckedChange = {
+                                    scope.launch {
+                                        preferencias.guardarAjustes(nuevasOfertas, it)
+                                    }
+                                }
                             )
                         }
                     }
@@ -154,9 +161,11 @@ fun AjustesView(navController: NavHostController) {
                 // Botón cerrar sesión
                 Button(
                     onClick = {
+                        scope.launch {
+                            preferencias.guardarSesion(false)
                         navController.navigate("login") {
                             popUpTo("home") { inclusive = true }
-                        }
+                        }}
                     },
                     modifier = Modifier
                         .fillMaxWidth()

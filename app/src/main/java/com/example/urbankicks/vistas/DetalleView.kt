@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,12 +25,18 @@ import androidx.navigation.NavHostController
 import com.example.urbankicks.R
 import com.example.urbankicks.modelo.ItemCarrito
 import com.example.urbankicks.modelo.obtenerZapatillas
+import com.example.urbankicks.persistencia.Preferencias
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<ItemCarrito>) {
+
+    val context = LocalContext.current
+    val preferencias = Preferencias(context)
+    val scope = rememberCoroutineScope()
 
     val zapatilla = obtenerZapatillas().find { it.id == id }
     var mensaje by remember { mutableStateOf("") }
@@ -231,6 +238,11 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
 
                     Button(
                         onClick = {
+
+                            scope.launch {
+                                preferencias.guardarCarrito(carrito)
+                            }
+
                             val itemExistente = carrito.find {
                                 it.zapatillaId == zapatilla.id && it.talla == tallaSeleccionada
                             }

@@ -30,6 +30,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+
 @Composable
 fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarrito>) {
 

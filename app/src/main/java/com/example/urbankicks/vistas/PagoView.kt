@@ -11,24 +11,41 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.urbankicks.modelo.ItemCarrito
 import com.example.urbankicks.modelo.obtenerZapatillas
+import com.example.urbankicks.persistencia.Preferencias
 import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
+import kotlinx.coroutines.launch
 
 @Composable
 fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>) {
+
+    val context = LocalContext.current
+    val preferencias = Preferencias(context)
+    val scope = rememberCoroutineScope()
+
 
     val todasLasZapatillas = obtenerZapatillas()
     val total = carrito.sumOf { item ->
         val zapatilla = todasLasZapatillas.find { it.id == item.zapatillaId }
         (zapatilla?.precio ?: 0.0) * item.cantidad
     }
+
+    val nombreGuardado by preferencias.nombreTarjeta.collectAsState("")
+    val numeroGuardado by preferencias.numeroTarjeta.collectAsState("")
+    val fechaGuardada by preferencias.fecha.collectAsState("")
+    val cvvGuardado by preferencias.cvv.collectAsState("")
+    val direccionGuardada by preferencias.direccion.collectAsState("")
+    val ciudadGuardada by preferencias.ciudad.collectAsState("")
+    val cpGuardado by preferencias.cp.collectAsState("")
+
 
     var nombreTarjeta by remember { mutableStateOf("") }
     var numeroTarjeta by remember { mutableStateOf("") }
@@ -38,6 +55,25 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
     var ciudad by remember { mutableStateOf("") }
     var codigoPostal by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
+
+    LaunchedEffect(
+        nombreGuardado,
+        numeroGuardado,
+        fechaGuardada,
+        cvvGuardado,
+        direccionGuardada,
+        ciudadGuardada,
+        cpGuardado
+    ) {
+        nombreTarjeta = nombreGuardado
+        numeroTarjeta = numeroGuardado
+        fechaVencimiento = fechaGuardada
+        cvv = cvvGuardado
+        direccion = direccionGuardada
+        ciudad = ciudadGuardada
+        codigoPostal = cpGuardado
+    }
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -277,6 +313,18 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
 
                 Button(
                     onClick = {
+                        scope.launch {
+                            preferencias.guardarPago(
+                                nombreTarjeta,
+                                numeroTarjeta,
+                                fechaVencimiento,
+                                cvv,
+                                direccion,
+                                ciudad,
+                                codigoPostal
+                            )
+                        }
+
                         when {
                             nombreTarjeta.trim().isEmpty() -> error = "Ingresa el nombre de la tarjeta"
                             numeroTarjeta.trim().length < 16 -> error = "Ingresa un número de tarjeta válido"
