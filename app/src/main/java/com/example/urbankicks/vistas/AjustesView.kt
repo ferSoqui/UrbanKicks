@@ -3,7 +3,9 @@ package com.example.urbankicks.vistas
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -43,13 +45,14 @@ fun AjustesView(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         color = FondoClaro
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())) {
 
             // Encabezado
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(14.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -92,7 +95,7 @@ fun AjustesView(navController: NavHostController) {
                             painter = painterResource(id = R.drawable.shoe), // 👈 tu imagen
                             contentDescription = "UrbanKicks Logo",
                             modifier = Modifier
-                                .height(200.dp)
+                                .height(180.dp)
                                 .fillMaxWidth(),
                             contentScale = ContentScale.Fit
                         )
