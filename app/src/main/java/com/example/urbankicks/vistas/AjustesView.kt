@@ -1,5 +1,6 @@
 package com.example.urbankicks.vistas
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavHostController
 import com.example.urbankicks.R
 import com.example.urbankicks.persistencia.Preferencias
@@ -33,6 +36,8 @@ fun AjustesView(navController: NavHostController) {
 
     val nuevasOfertas by preferencias.ofertas.collectAsState(initial = true)
     val recordatoriosPedidos by preferencias.recordatorios.collectAsState(initial = true)
+    val idiomaGuardado by preferencias.idioma.collectAsState(initial = "es")
+    val esIngles = idiomaGuardado == "en"
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -57,7 +62,7 @@ fun AjustesView(navController: NavHostController) {
                 }
 
                 Text(
-                    text = "Configuración",
+                    text = stringResource(R.string.configuracion),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -105,7 +110,7 @@ fun AjustesView(navController: NavHostController) {
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Notificaciones",
+                            text = stringResource(R.string.notificaciones),
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
@@ -119,7 +124,7 @@ fun AjustesView(navController: NavHostController) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Nuevas ofertas",
+                                text = stringResource(R.string.nuevas_ofertas),
                                 fontSize = 14.sp
                             )
                             Switch(
@@ -141,7 +146,7 @@ fun AjustesView(navController: NavHostController) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Recordatorios de pedidos",
+                                text = stringResource(R.string.recordatorios_pedidos),
                                 fontSize = 14.sp
                             )
                             Switch(
@@ -152,6 +157,35 @@ fun AjustesView(navController: NavHostController) {
                                     }
                                 }
                             )
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.idioma_label),
+                                fontSize = 14.sp
+                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = stringResource(R.string.idioma_ingles),
+                                    fontSize = 13.sp,
+                                    color = if (esIngles) CafePrincipal else Color.Gray
+                                )
+                                Switch(
+                                    checked = esIngles,
+                                    onCheckedChange = { activarIngles ->
+                                        val codigoIdioma = if (activarIngles) "en" else "es"
+                                        scope.launch {
+                                            preferencias.guardarIdioma(codigoIdioma)
+                                        }
+                                        val localeList = LocaleListCompat.forLanguageTags(codigoIdioma)
+                                        AppCompatDelegate.setApplicationLocales(localeList)
+                                    },
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -174,7 +208,7 @@ fun AjustesView(navController: NavHostController) {
                     colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                 ) {
                     Text(
-                        text = "Cerrar sesión",
+                        text = stringResource(R.string.cerrar_sesion),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )

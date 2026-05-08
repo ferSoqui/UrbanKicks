@@ -32,15 +32,16 @@ import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
 import com.example.urbankicks.ui.theme.TextoOscuro
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun HomeView(navController: NavHostController) {
 
     val zapatillas = obtenerZapatillas()
     var busqueda by remember { mutableStateOf("") }
-    var marcaSeleccionada by remember { mutableStateOf("Todas") }
-
-    val marcas = listOf("Todas") + zapatillas.map { it.marca }.distinct()
+    val todasStr = stringResource(R.string.todas)
+    var marcaSeleccionada by remember { mutableStateOf(todasStr) }
+    val marcas = listOf(todasStr) + zapatillas.map { it.marca }.distinct()
 
     val zapatillasFiltradas = zapatillas.filter { zapatilla ->
         val coincideBusqueda = busqueda.isEmpty() ||
@@ -49,7 +50,7 @@ fun HomeView(navController: NavHostController) {
                 zapatilla.color.contains(busqueda, ignoreCase = true) ||
                 zapatilla.categoria.contains(busqueda, ignoreCase = true)
 
-        val coincideMarca = marcaSeleccionada == "Todas" ||
+        val coincideMarca = marcaSeleccionada == todasStr ||
                 zapatilla.marca == marcaSeleccionada
 
         coincideBusqueda && coincideMarca
@@ -128,7 +129,7 @@ fun HomeView(navController: NavHostController) {
                 OutlinedTextField(
                     value = busqueda,
                     onValueChange = { busqueda = it },
-                    label = { Text("Buscar productos...") },
+                    label = { Text(stringResource(R.string.buscar_productos)) },
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -140,7 +141,7 @@ fun HomeView(navController: NavHostController) {
             // Filtro de marcas
             item {
                 Text(
-                    text = "Elegir marca",
+                    text = stringResource(R.string.elegir_marca),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -207,7 +208,7 @@ fun HomeView(navController: NavHostController) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No se encontraron productos",
+                            text = stringResource(R.string.no_se_encontraron),
                             color = TextoGris
                         )
                     }

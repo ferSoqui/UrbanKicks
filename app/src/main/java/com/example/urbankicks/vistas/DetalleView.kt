@@ -30,6 +30,7 @@ import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<ItemCarrito>) {
@@ -72,7 +73,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                     }
 
                     Text(
-                        text = "Detalle del producto",
+                        text = stringResource(R.string.detalle_producto),
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
@@ -116,7 +117,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                 ) {
 
                     Text(
-                        text = "Talla: $tallaSeleccionada",
+                        text = stringResource(R.string.talla_prefix) + tallaSeleccionada,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
@@ -164,7 +165,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                             fontSize = 20.sp
                         )
                         Text(
-                            text = "Color: ${zapatilla.color}",
+                            text = stringResource(R.string.color_prefix) + zapatilla.color,
                             color = TextoGris,
                             fontSize = 13.sp
                         )
@@ -173,7 +174,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Descripción del producto",
+                        text = stringResource(R.string.descripcion_producto),
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
@@ -189,7 +190,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Cantidad:",
+                        text = stringResource(R.string.cantidad),
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
@@ -248,7 +249,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                             }
                             if (itemExistente != null) {
                                 itemExistente.cantidad += cantidad
-                                mensaje = "Cantidad actualizada en el carrito"
+                                mensaje = context.getString(R.string.cantidad_actualizada)
                             } else {
                                 carrito.add(
                                     ItemCarrito(
@@ -257,7 +258,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                                         cantidad = cantidad
                                     )
                                 )
-                                mensaje = "Agregado al carrito"
+                                mensaje = context.getString(R.string.agregado_al_carrito)
                             }
                         },
                         modifier = Modifier
@@ -271,7 +272,7 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                             contentDescription = ""
                         )
                         Text(
-                            text = "   Añadir al carrito",
+                            text = stringResource(R.string.anadir_al_carrito),
                             color = Color.White,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
@@ -289,14 +290,14 @@ fun DetalleView(navController: NavHostController, id: Int, carrito: MutableList<
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Producto no encontrado")
+                Text(stringResource(R.string.producto_no_encontrado))
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = { navController.popBackStack() },
                     colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                 ) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
-                    Text(text = "   Regresar", color = Color.White)
+                    Text(text = stringResource(R.string.regresar), color = Color.White)
                 }
             }
         }

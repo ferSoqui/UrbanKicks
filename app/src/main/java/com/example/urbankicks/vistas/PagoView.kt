@@ -23,6 +23,8 @@ import com.example.urbankicks.ui.theme.CafePrincipal
 import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
+import com.example.urbankicks.R
 
 @Composable
 fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>) {
@@ -101,7 +103,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                 }
 
                 Text(
-                    text = "Datos de pago",
+                    text = stringResource(R.string.datos_pago),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -123,14 +125,14 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Información de tarjeta",
+                            text = stringResource(R.string.info_tarjeta),
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        Text(text = "Nombre en la tarjeta", color = TextoGris, fontSize = 12.sp)
+                        Text(text = stringResource(R.string.nombre_en_tarjeta), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = nombreTarjeta,
                             onValueChange = { nombreTarjeta = it },
@@ -141,7 +143,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        Text(text = "Número de tarjeta", color = TextoGris, fontSize = 12.sp)
+                        Text(text = stringResource(R.string.numero_tarjeta), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = numeroTarjeta,
                             onValueChange = { if (it.length <= 16) numeroTarjeta = it },
@@ -155,7 +157,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
 
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(text = "Fecha vencimiento", color = TextoGris, fontSize = 12.sp)
+                                Text(text = stringResource(R.string.fecha_vencimiento), color = TextoGris, fontSize = 12.sp)
                                 OutlinedTextField(
                                     value = fechaVencimiento,
                                     onValueChange = { if (it.length <= 5) fechaVencimiento = it },
@@ -166,7 +168,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                             }
 
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(text = "CVV", color = TextoGris, fontSize = 12.sp)
+                                Text(text = stringResource(R.string.cvv), color = TextoGris, fontSize = 12.sp)
                                 OutlinedTextField(
                                     value = cvv,
                                     onValueChange = { if (it.length <= 3) cvv = it },
@@ -189,18 +191,18 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Dirección de envío",
+                            text = stringResource(R.string.direccion_envio),
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        Text(text = "Dirección", color = TextoGris, fontSize = 12.sp)
+                        Text(text = stringResource(R.string.direccion), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = direccion,
                             onValueChange = { direccion = it },
-                            placeholder = { Text("Calle y número") },
+                            placeholder = { Text(stringResource(R.string.calle_numero)) },
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -210,18 +212,18 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
 
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(text = "Ciudad", color = TextoGris, fontSize = 12.sp)
+                                Text(text = stringResource(R.string.ciudad), color = TextoGris, fontSize = 12.sp)
                                 OutlinedTextField(
                                     value = ciudad,
                                     onValueChange = { ciudad = it },
-                                    placeholder = { Text("Ciudad") },
+                                    placeholder = { Text(stringResource(R.string.ciudad)) },
                                     shape = RoundedCornerShape(12.dp),
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
 
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(text = "Código postal", color = TextoGris, fontSize = 12.sp)
+                                Text(text = stringResource(R.string.codigo_postal), color = TextoGris, fontSize = 12.sp)
                                 OutlinedTextField(
                                     value = codigoPostal,
                                     onValueChange = { if (it.length <= 5) codigoPostal = it },
@@ -244,7 +246,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Resumen del pedido",
+                            text = stringResource(R.string.resumen_pedido),
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
@@ -255,7 +257,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Subtotal", color = TextoGris)
+                            Text(stringResource(R.string.subtotal), color = TextoGris)
                             Text(
                                 text = "$${String.format("%.2f", total)}",
                                 fontWeight = FontWeight.Bold
@@ -268,9 +270,9 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Costo de envío", color = TextoGris)
+                            Text(stringResource(R.string.costo_envio), color = TextoGris)
                             Text(
-                                text = "Gratis",
+                                text = stringResource(R.string.gratis),
                                 color = CafePrincipal,
                                 fontWeight = FontWeight.Bold
                             )
@@ -287,7 +289,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Total",
+                                text = stringResource(R.string.total),
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
@@ -326,13 +328,13 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                         }
 
                         when {
-                            nombreTarjeta.trim().isEmpty() -> error = "Ingresa el nombre de la tarjeta"
-                            numeroTarjeta.trim().length < 16 -> error = "Ingresa un número de tarjeta válido"
-                            fechaVencimiento.trim().length < 5 -> error = "Ingresa la fecha de vencimiento"
-                            cvv.trim().length < 3 -> error = "Ingresa el CVV"
-                            direccion.trim().isEmpty() -> error = "Ingresa tu dirección"
-                            ciudad.trim().isEmpty() -> error = "Ingresa tu ciudad"
-                            codigoPostal.trim().length < 5 -> error = "Ingresa tu código postal"
+                            nombreTarjeta.trim().isEmpty() -> error = context.getString(R.string.error_nombre_tarjeta)
+                            numeroTarjeta.trim().length < 16 -> error = context.getString(R.string.error_numero_tarjeta)
+                            fechaVencimiento.trim().length < 5 -> error = context.getString(R.string.error_fecha)
+                            cvv.trim().length < 3 -> error = context.getString(R.string.error_cvv)
+                            direccion.trim().isEmpty() -> error = context.getString(R.string.error_direccion)
+                            ciudad.trim().isEmpty() -> error = context.getString(R.string.error_ciudad)
+                            codigoPostal.trim().length < 5 -> error = context.getString(R.string.error_cp)
                             else -> navController.navigate("confirmacion")
                         }
                     },
@@ -343,7 +345,7 @@ fun PagoView(navController: NavHostController, carrito: MutableList<ItemCarrito>
                     colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                 ) {
                     Text(
-                        text = "Confirmar pago",
+                        text = stringResource(R.string.confirmar_pago),
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold

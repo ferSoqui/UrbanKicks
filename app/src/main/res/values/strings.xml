@@ -1,3 +1,104 @@
 <resources>
     <string name="app_name">UrbanKicks</string>
+
+    <string name="bienvenido">Bienvenido</string>
+    <string name="de_nuevo">de nuevo!</string>
+    <string name="username_o_email">Username o Email</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="olvidaste_contrasena">Olvidaste la contraseña?</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="o_continua_con">- O continúa con -</string>
+    <string name="crear_una_cuenta">Crear una cuenta  </string>
+    <string name="registrate">Regístrate</string>
+    <string name="error_correo_contrasena">Ingresa tu correo y contraseña</string>
+
+    <string name="crea_una">Crea una</string>
+    <string name="cuenta">cuenta</string>
+    <string name="nombre_completo">Nombre completo</string>
+    <string name="confirmar_contrasena">Confirmar contraseña</string>
+    <string name="terminos">Al registrarte, aceptas los términos y condiciones.</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="ya_tienes_cuenta">¿Ya tienes cuenta?  </string>
+    <string name="inicia_sesion">Inicia sesión</string>
+    <string name="error_nombre">Ingresa tu nombre</string>
+    <string name="error_correo">Ingresa tu correo</string>
+    <string name="error_contrasena">Ingresa una contraseña</string>
+    <string name="error_contrasenas_no_coinciden">Las contraseñas no coinciden</string>
+
+    <string name="buscar_productos">Buscar productos...</string>
+    <string name="elegir_marca">Elegir marca</string>
+    <string name="todas">Todas</string>
+    <string name="no_se_encontraron">No se encontraron productos</string>
+    <string name="regresar">Regresar</string>
+
+    <string name="detalle_producto">Detalle del producto</string>
+    <string name="talla_prefix">Talla: </string>
+    <string name="color_prefix">Color: </string>
+    <string name="descripcion_producto">Descripción del producto</string>
+    <string name="cantidad">Cantidad:</string>
+    <string name="anadir_al_carrito">Añadir al carrito</string>
+    <string name="cantidad_actualizada">Cantidad actualizada en el carrito</string>
+    <string name="agregado_al_carrito">Agregado al carrito</string>
+    <string name="producto_no_encontrado">Producto no encontrado</string>
+
+    <string name="carrito">Carrito</string>
+    <string name="carrito_vacio">Tu carrito está vacío</string>
+    <string name="agrega_productos">Agrega productos desde el catálogo</string>
+    <string name="ver_productos">   Ver productos</string>
+    <string name="cant_label">Cant: </string>
+    <string name="entrega_label">Entrega: </string>
+    <string name="detalles_pago">Detalles de pago</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="costo_envio">Costo de envío</string>
+    <string name="gratis">Gratis</string>
+    <string name="total_pedido">Total del pedido</string>
+    <string name="proceder_al_pago">   Proceder al pago</string>
+
+    <string name="datos_pago">Datos de pago</string>
+    <string name="info_tarjeta">Información de tarjeta</string>
+    <string name="nombre_en_tarjeta">Nombre en la tarjeta</string>
+    <string name="numero_tarjeta">Número de tarjeta</string>
+    <string name="fecha_vencimiento">Fecha vencimiento</string>
+    <string name="cvv">CVV</string>
+    <string name="direccion_envio">Dirección de envío</string>
+    <string name="direccion">Dirección</string>
+    <string name="calle_numero">Calle y número</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="codigo_postal">Código postal</string>
+    <string name="resumen_pedido">Resumen del pedido</string>
+    <string name="total">Total</string>
+    <string name="confirmar_pago">Confirmar pago</string>
+    <string name="error_nombre_tarjeta">Ingresa el nombre de la tarjeta</string>
+    <string name="error_numero_tarjeta">Ingresa un número de tarjeta válido</string>
+    <string name="error_fecha">Ingresa la fecha de vencimiento</string>
+    <string name="error_cvv">Ingresa el CVV</string>
+    <string name="error_direccion">Ingresa tu dirección</string>
+    <string name="error_ciudad">Ingresa tu ciudad</string>
+    <string name="error_cp">Ingresa tu código postal</string>
+
+    <string name="pago_confirmado">¡Pago confirmado!</string>
+    <string name="pedido_procesado">Tu pedido ha sido procesado exitosamente</string>
+    <string name="detalles_pedido">Detalles del pedido</string>
+    <string name="numero_pedido">Número de pedido</string>
+    <string name="fecha_entrega">Fecha de entrega</string>
+    <string name="estado">Estado</string>
+    <string name="en_proceso">En proceso</string>
+    <string name="productos_comprados">Productos comprados</string>
+    <string name="total_pagado">Total pagado</string>
+    <string name="volver_al_inicio">Volver al inicio</string>
+
+    <string name="mi_perfil">Mi Perfil</string>
+    <string name="email">Email</string>
+    <string name="guardar">   Guardar</string>
+    <string name="perfil_guardado">Perfil guardado correctamente</string>
+    <string name="ingresa_nombre">Ingresa tu nombre</string>
+    <string name="ingresa_correo">Ingresa tu correo</string>
+
+    <string name="configuracion">Configuración</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="nuevas_ofertas">Nuevas ofertas</string>
+    <string name="recordatorios_pedidos">Recordatorios de pedidos</string>
+    <string name="idioma_label">Idioma</string>
+    <string name="idioma_ingles">English</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
 </resources>

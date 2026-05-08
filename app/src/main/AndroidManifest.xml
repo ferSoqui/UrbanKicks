@@ -10,11 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:localeConfig="@xml/locales_config"
         android:theme="@style/Theme.UrbanKicks">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:configChanges="locale|layoutDirection"
             android:theme="@style/Theme.UrbanKicks">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -22,6 +22,8 @@ import com.example.urbankicks.ui.theme.FondoClaro
 import com.example.urbankicks.ui.theme.TextoGris
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
+import com.example.urbankicks.R
 
 @Composable
 fun PerfilView(navController: NavHostController) {
@@ -37,6 +39,7 @@ fun PerfilView(navController: NavHostController) {
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var mensaje by remember { mutableStateOf("") }
+    val idiomaActual by preferencias.idioma.collectAsState(initial = "es")
 
     LaunchedEffect(nombreGuardado, correoGuardado) {
         nombre = nombreGuardado
@@ -66,7 +69,7 @@ fun PerfilView(navController: NavHostController) {
                 }
 
                 Text(
-                    text = "Mi Perfil",
+                    text = stringResource(R.string.mi_perfil),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -98,7 +101,7 @@ fun PerfilView(navController: NavHostController) {
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         // Nombre
-                        Text("Nombre completo", color = TextoGris, fontSize = 12.sp)
+                        Text(stringResource(R.string.nombre_completo), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = nombre,
                             onValueChange = { nombre = it },
@@ -109,7 +112,7 @@ fun PerfilView(navController: NavHostController) {
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // Correo
-                        Text("Email", color = TextoGris, fontSize = 12.sp)
+                        Text(stringResource(R.string.email), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = correo,
                             onValueChange = { correo = it },
@@ -120,7 +123,7 @@ fun PerfilView(navController: NavHostController) {
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // Contraseña
-                        Text("Contraseña", color = TextoGris, fontSize = 12.sp)
+                        Text(stringResource(R.string.contrasena), color = TextoGris, fontSize = 12.sp)
                         OutlinedTextField(
                             value = contrasena,
                             onValueChange = { contrasena = it },
@@ -144,17 +147,17 @@ fun PerfilView(navController: NavHostController) {
                         Button(
                             onClick = {
                                 if (nombre.trim().isEmpty()) {
-                                    mensaje = "Ingresa tu nombre"
+                                    mensaje = context.getString(R.string.ingresa_nombre)
                                 } else if (correo.trim().isEmpty()) {
-                                    mensaje = "Ingresa tu correo"
+                                    mensaje = context.getString(R.string.ingresa_correo)
                                 } else {
                                     scope.launch {
                                         preferencias.guardarPerfil(
                                             nombre = nombre,
                                             correo = correo,
-                                            idioma = "Español (México)"
+                                            idioma = idiomaActual
                                         )
-                                        mensaje = "Perfil guardado correctamente"
+                                        mensaje = context.getString(R.string.perfil_guardado)
                                     }
                                 }
                             },
@@ -169,7 +172,7 @@ fun PerfilView(navController: NavHostController) {
                                 contentDescription = ""
                             )
                             Text(
-                                text = "   Guardar",
+                                text = stringResource(R.string.guardar),
                                 color = Color.White,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold

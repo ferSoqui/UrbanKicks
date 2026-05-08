@@ -29,6 +29,7 @@ import com.example.urbankicks.ui.theme.TextoGris
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -66,7 +67,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                 }
 
                 Text(
-                    text = "Carrito",
+                    text = stringResource(R.string.carrito),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -91,7 +92,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Tu carrito está vacío",
+                        text = stringResource(R.string.carrito_vacio),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -99,7 +100,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Agrega productos desde el catálogo",
+                        text = stringResource(R.string.agrega_productos),
                         color = TextoGris,
                         fontSize = 14.sp
                     )
@@ -112,7 +113,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                         colors = ButtonDefaults.buttonColors(containerColor = CafePrincipal)
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
-                        Text(text = "   Ver productos", color = Color.White)
+                        Text(text = stringResource(R.string.ver_productos), color = Color.White)
                     }
                 }
 
@@ -176,12 +177,12 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
 
                                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                                             Text(
-                                                text = "Talla: ${item.talla}",
+                                                text = stringResource(R.string.cant_label) + item.talla,
                                                 color = TextoGris,
                                                 fontSize = 12.sp
                                             )
                                             Text(
-                                                text = "Cant: ${item.cantidad}",
+                                                text = stringResource(R.string.cant_label) + item.cantidad,
                                                 color = TextoGris,
                                                 fontSize = 12.sp
                                             )
@@ -190,7 +191,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                                         Spacer(modifier = Modifier.height(4.dp))
 
                                         Text(
-                                            text = "Entrega: $fechaEntrega",
+                                            text = stringResource(R.string.entrega_label) + fechaEntrega,
                                             color = CafePrincipal,
                                             fontSize = 11.sp,
                                             fontWeight = FontWeight.Bold
@@ -221,7 +222,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Detalles de pago",
+                            text = stringResource(R.string.detalles_pago),
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
@@ -232,7 +233,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Subtotal", color = TextoGris)
+                            Text(text=stringResource(R.string.subtotal), color = TextoGris)
                             Text(
                                 text = "$${String.format("%.2f", total)}",
                                 fontWeight = FontWeight.Bold
@@ -245,9 +246,9 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Costo de envío", color = TextoGris)
+                            Text(stringResource(R.string.costo_envio), color = TextoGris)
                             Text(
-                                text = "Gratis",
+                                text = stringResource(R.string.gratis),
                                 color = CafePrincipal,
                                 fontWeight = FontWeight.Bold
                             )
@@ -264,7 +265,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Total del pedido",
+                                text = stringResource(R.string.total_pedido),
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
@@ -289,7 +290,7 @@ fun CarritoView(navController: NavHostController, carrito: MutableList<ItemCarri
                 ) {
                     Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "")
                     Text(
-                        text = "   Proceder al pago",
+                        text = stringResource(R.string.proceder_al_pago),
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold

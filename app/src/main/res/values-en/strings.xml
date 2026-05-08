@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">UrbanKicks</string>
+
+    <string name="bienvenido">Welcome</string>
+    <string name="de_nuevo">back!</string>
+    <string name="username_o_email">Username or Email</string>
+    <string name="contrasena">Password</string>
+    <string name="olvidaste_contrasena">Forgot your password?</string>
+    <string name="iniciar_sesion">Log in</string>
+    <string name="o_continua_con">- Or continue with -</string>
+    <string name="crear_una_cuenta">Create an account  </string>
+    <string name="registrate">Sign up</string>
+    <string name="error_correo_contrasena">Enter your email and password</string>
+
+    <string name="crea_una">Create an</string>
+    <string name="cuenta">account</string>
+    <string name="nombre_completo">Full name</string>
+    <string name="confirmar_contrasena">Confirm password</string>
+    <string name="terminos">By signing up, you accept the terms and conditions.</string>
+    <string name="registrarse">Sign up</string>
+    <string name="ya_tienes_cuenta">Already have an account?  </string>
+    <string name="inicia_sesion">Log in</string>
+    <string name="error_nombre">Enter your name</string>
+    <string name="error_correo">Enter your email</string>
+    <string name="error_contrasena">Enter a password</string>
+    <string name="error_contrasenas_no_coinciden">Passwords do not match</string>
+
+    <string name="buscar_productos">Search products...</string>
+    <string name="elegir_marca">Choose brand</string>
+    <string name="todas">All</string>
+    <string name="no_se_encontraron">No products found</string>
+    <string name="regresar">Go back</string>
+
+    <string name="detalle_producto">Product detail</string>
+    <string name="talla_prefix">Size: </string>
+    <string name="color_prefix">Color: </string>
+    <string name="descripcion_producto">Product description</string>
+    <string name="cantidad">Quantity:</string>
+    <string name="anadir_al_carrito">Add to cart</string>
+    <string name="cantidad_actualizada">Quantity updated in cart</string>
+    <string name="agregado_al_carrito">Added to cart</string>
+    <string name="producto_no_encontrado">Product not found</string>
+
+    <string name="carrito">Cart</string>
+    <string name="carrito_vacio">Your cart is empty</string>
+    <string name="agrega_productos">Add products from the catalog</string>
+    <string name="ver_productos">   View products</string>
+    <string name="cant_label">Qty: </string>
+    <string name="entrega_label">Delivery: </string>
+    <string name="detalles_pago">Payment details</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="costo_envio">Shipping cost</string>
+    <string name="gratis">Free</string>
+    <string name="total_pedido">Order total</string>
+    <string name="proceder_al_pago">   Proceed to checkout</string>
+
+    <string name="datos_pago">Payment data</string>
+    <string name="info_tarjeta">Card information</string>
+    <string name="nombre_en_tarjeta">Name on card</string>
+    <string name="numero_tarjeta">Card number</string>
+    <string name="fecha_vencimiento">Expiration date</string>
+    <string name="cvv">CVV</string>
+    <string name="direccion_envio">Shipping address</string>
+    <string name="direccion">Address</string>
+    <string name="calle_numero">Street and number</string>
+    <string name="ciudad">City</string>
+    <string name="codigo_postal">ZIP code</string>
+    <string name="resumen_pedido">Order summary</string>
+    <string name="total">Total</string>
+    <string name="confirmar_pago">Confirm payment</string>
+    <string name="error_nombre_tarjeta">Enter the cardholder name</string>
+    <string name="error_numero_tarjeta">Enter a valid card number</string>
+    <string name="error_fecha">Enter the expiration date</string>
+    <string name="error_cvv">Enter the CVV</string>
+    <string name="error_direccion">Enter your address</string>
+    <string name="error_ciudad">Enter your city</string>
+    <string name="error_cp">Enter your ZIP code</string>
+
+    <string name="pago_confirmado">Payment confirmed!</string>
+    <string name="pedido_procesado">Your order has been successfully processed</string>
+    <string name="detalles_pedido">Order details</string>
+    <string name="numero_pedido">Order number</string>
+    <string name="fecha_entrega">Delivery date</string>
+    <string name="estado">Status</string>
+    <string name="en_proceso">In process</string>
+    <string name="productos_comprados">Purchased products</string>
+    <string name="total_pagado">Total paid</string>
+    <string name="volver_al_inicio">Back to home</string>
+
+    <string name="mi_perfil">My Profile</string>
+    <string name="email">Email</string>
+    <string name="guardar">   Save</string>
+    <string name="perfil_guardado">Profile saved successfully</string>
+    <string name="ingresa_nombre">Enter your name</string>
+    <string name="ingresa_correo">Enter your email</string>
+
+    <string name="configuracion">Settings</string>
+    <string name="notificaciones">Notifications</string>
+    <string name="nuevas_ofertas">New offers</string>
+    <string name="recordatorios_pedidos">Order reminders</string>
+    <string name="idioma_label">Language</string>
+    <string name="idioma_ingles">English</string>
+    <string name="cerrar_sesion">Log out</string>
+</resources>

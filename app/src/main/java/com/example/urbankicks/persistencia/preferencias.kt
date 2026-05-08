@@ -48,7 +48,7 @@ class Preferencias(private val contexto: Context) {
     }
 
     val idioma: Flow<String> = contexto.dataStore.data.map {
-        it[IDIOMA] ?: "Español (México)"
+        it[IDIOMA] ?: "es"
     }
 
     val ofertas: Flow<Boolean> = contexto.dataStore.data.map {
@@ -120,6 +120,12 @@ class Preferencias(private val contexto: Context) {
         contexto.dataStore.edit {
             it[OFERTAS] = ofertas
             it[RECORDATORIOS] = recordatorios
+        }
+    }
+
+    suspend fun guardarIdioma(idioma: String) {
+        contexto.dataStore.edit {
+            it[IDIOMA] = idioma
         }
     }
 
